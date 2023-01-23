@@ -2,34 +2,31 @@ class Solution:
     # @param A : list of integers
     # @param B : integer
     # @return an integer
-    def solve(self, A, B):
-        A.sort(reverse=True)
+    def get_sum(self, A, val):
         n = len(A)
-        hashmap = {A[0]: 0}
-        for i in range(1, n):
-            hashmap[A[i]] = hashmap[A[i - 1]] + i * (A[i - 1] - A[i])
-        print(hashmap)
-        i = 1
-        while i < n:
-            print(i, hashmap[A[i]], (hashmap[A[i]] > B) and (hashmap[A[i - 1]] < B))
-            if hashmap[A[i]] == B:
-                return A[i]
-            elif (hashmap[A[i]] > B) and (hashmap[A[i - 1]] < B):
-                max_ = 0
-                for j in range(A[i] + 1, A[i - 1]):
-                    result = 0
-                    for k in range(i):
-                        result += (A[k] - j)
-                    if result >= B:
-                        max_ = j
-                    else:
-                        return max_
-                    print(j, result, B, result >= B, max_)
-                return max_
+        sum = 0
+        for i in range(n - 1, -1, -1):
+            if A[i] > val:
+                sum += (A[i] - val)
             else:
-                i += 1 
+                break
+        return sum
 
+    def solve(self, A, B):
+        A.sort()
+        left, right = 1, A[-1]
+        while left <= right:
+            mid = (left + right)//2
+            total_height = self.get_sum(A, mid)
+            print(left, right, mid, total_height)
+            if total_height == B:
+                return mid
+            elif total_height > B:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return right
 sol = Solution()
-A = [ 62, 117, 149, 85, 144, 53, 61, 72, 83, 123, 114, 91, 61, 103 ]
-B = 68
+A = [ 117, 84, 50, 119, 74, 128 ]
+B = 58
 print(sol.solve(A, B))

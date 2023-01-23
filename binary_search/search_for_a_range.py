@@ -28,6 +28,8 @@ class Solution:
         lower_num = lower_num if (lower_num < len(A)) and (lower_num >= 0) else -1
         #lower_num = -1 if (lower_num == 0) and (A[0] != B) else lower_num
         higher_num = higher_num - 1 if (higher_num <= len(A)) and (higher_num > 0) else -1
+        if higher_num < lower_num :
+            return [-1, -1]
         return [lower_num, higher_num]
 
 sol = Solution()
